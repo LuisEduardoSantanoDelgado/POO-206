@@ -7,3 +7,10 @@ de varias lineas
 en python """
 
 
+#2. strings
+print("hola soy un cortasareño")
+print('yo soy otra')
+
+
+
+
