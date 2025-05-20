@@ -1,3 +1,9 @@
-numero = int(input("introduce un número: "))
-resultado = 10 / numero 
-print("resiltado:", resultado)
+try:
+    numero = int(input("introduce un número: "))
+    resultado = 10 / numero
+    print("resultado:", resultado)
+
+except ValueError:
+    print("Error: Se ingresó algo que no es un número entero.")
+except ZeroDivisionError:
+    print("Error: Estás intentando dividir entre cero.")
