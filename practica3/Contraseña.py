@@ -9,7 +9,7 @@ while True:
         continue
 
     tiene_num = any(c.isdigit() for c in contraseña)
-    tiene_especial = any(c in "!@#$%^&*()_+-=[]{}|;:,.<>?/" for c in contraseña)
+    tiene_especial = any(c in "/\!@#$%^&*()_[]{}|;:,.<>?+-=" for c in contraseña)
 
     if not tiene_num:
         print("debe tener al menos un número.")
