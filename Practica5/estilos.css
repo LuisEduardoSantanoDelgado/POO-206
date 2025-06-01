@@ -1,0 +1,61 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('/Users/luiseduardosantanodelgado/Desktop/POO/POO206/Practica5/img/pexels-apasaric-325185.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #333;
+    margin: 20px;
+  }
+  
+  header {
+    background-color: #277ad5;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    margin-bottom: 5px;
+  }
+  
+  main {
+    background-color: white;
+    padding: 20px;
+    max-width: 700px;
+    margin: 20px auto;
+    border-radius: 5px;
+    box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+  }
+  
+  section {
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    color: #277ad5;
+    border-left: 5px solid #277ad5;
+    padding-left: 10px;
+    margin-bottom: 10px;
+  }
+  
+  ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  
+  a {
+    color: #277ad5;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  footer {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-top: 40px;
+  }
