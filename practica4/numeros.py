@@ -17,4 +17,3 @@ try:
     
 except ValueError:
     print("se debe de introducir un número entero válido y mayor que 10")
-    
