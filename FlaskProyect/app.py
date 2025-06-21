@@ -1,71 +1,71 @@
-from flask import Flask, jsonify
-from flask_mysql import MySQL  
-import MySQL  
+from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
+import mysql.connector
 
+app = Flask(__name__)
+app.secret_key = 'mysecretKey'
 
+db_config = {
+    'host': '127.0.0.1',
+    'port': 8889,
+    'user': 'root',
+    'password': 'root',
+    'database': 'dbflask',
+    'unix_socket': '/Applications/MAMP/tmp/mysql/mysql.sock'
+}
 
-app= Flask(__name__)
-
-app.config['MYSQL_HOST']="localhost"
-
-app.config['MYSQL_USER']="root"
-
-app.config['MYSQL_USER']=""
-
-app.config['MYSQL_USER']="dbFlask"
-
-app.config['MYSQL_PORT']=8889
-
-mysql= MySQL(app)
-
-#Ruta para probar conexiónbrew install mysql
-
-@app.route('/DBCheck')
+@app.route('/DBcheck')
 def DB_check():
-        try:
-                cursor= mysql.connection.cursor()
-                cursor.excecute('Select 1')
-                return jsonify( {'status':'ok','message':'conectado con exito'} ),200
-        except MySQLdb.MySQLError as e:
-                return jsonify( {'error':'ok','message':'str(e)'} ),500
+    try:
+        conn = mysql.connector.connect(**db_config)
+        conn.close()
+        return jsonify({'status': 'ok', 'message': 'Conectado con éxito'}), 200
+    except mysql.connector.Error as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
+@app.route('/')
+def home():
+    return render_template('formulario.html')
 
+@app.route('/consulta')
+def consulta():
+    return render_template('consulta.html')
 
-#ruta simple
-#@app.route('/')
-#def Home():
-        #return "Hola Mundo Flask"
+@app.route('/guardarAlbum', methods=['POST'])
+def guardar():
+    Vtitulo = request.form.get('txtTitulo', '').strip()
+    VArtista = request.form.get('txtArtista', '').strip()
+    VAnio = request.form.get('txtAnio', '').strip()
 
-#ruta con parametros
-#@app.route('/saludo/<nombre>')
-#def saludar(nombre):
-        #return 'Hola,' +nombre+ '!!'
+    if not VAnio.isdigit():
+        flash('El año debe ser un número entero válido')
+        return redirect(url_for('home'))
 
-#ruta try-Catch
-#@app.errorhandler(404)
-#def PaginaNoEncontrada(a):
-        #return 'Ten cuidado:Error de capa 8!!!!!'
-        
-#ruta try-Catch
-#@app.errorhandler(405)
-#def PaginaNoEncontrada(a):
-        #return 'Revisa el metofo de envio de tu ruta (GET o POST)!!!!!'
+    VAnio = int(VAnio)
+    conn = None
 
-#ruta doble
-#@app.route('/usuario')
-#@app.route('/usuaria')
-#def dobleroute():
-       #return "Soy e mismo recurso del servidor"
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+        cursor.execute(
+            'INSERT INTO tb_albums (album, artista, anio) VALUES (%s, %s, %s)',
+            (Vtitulo, VArtista, VAnio)
+        )
+        conn.commit()
+        flash('Álbum se guardó en BD')
+    except mysql.connector.Error as e:
+        if conn:
+            conn.rollback()
+        flash('Algo falló: ' + str(e))
+    finally:
+        if conn:
+            cursor.close()
+            conn.close()
 
+    return redirect(url_for('home'))
 
-#ruta POST
-#@app.route('/formulario',methods=['POST'])
-#def formulario():
-#        return 'Soy un formulario'
-
-
+@app.errorhandler(404)
+def paginaNoE(e):
+    return 'Cuidado: Error de capa 8 !!!', 404
 
 if __name__ == '__main__':
-    app.run(port=8890,debug=True)
-    
-    
+    app.run(port=8888, debug=True)
