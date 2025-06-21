@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+</head>
+<body>
+
+    <h2>Vista De Formulario</h2>
+    <a href="{{ url_for('consulta') }}">Abrir Vista Consulta</a>
+    <br><br>
+
+    {% with mensajes = get_flashed_messages() %}
+        {% if mensajes %}
+            {% for msj in mensajes %}
+                <h4 style="color:rgb(15, 52, 156);">{{ msj }}</h4>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('guardar') }}" method="post">
+        <input type="text"   name="txtTitulo"  placeholder="Título"  required>
+        <input type="text"   name="txtArtista" placeholder="Artista" required>
+        <input type="number" name="txtAnio"    placeholder="Año"     required>
+        <button type="submit">Guardar Álbum</button>
+    </form>
+
+</body>
+</html>
