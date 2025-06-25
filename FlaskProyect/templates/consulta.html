@@ -3,13 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Consulta </title>
+    <title> consulta </title>
 </head>
 <body>
 
-    <h2>Vista De Consulta</h2>
-    <a href="/"> Abrir Vista Formulario </a>
+    <h2>Detalle de album</h2>
     
+    
+    <table>
+        <thead>
+            <td>Id:</td>
+            <td>Album:</td>
+            <td>Artista:</td>
+            <td>Año:</td>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>{{album.0}}</td>
+                <td>{{album.1}}</td>
+                <td>{{album.2}}</td>
+                <td>{{album.3}}</td>
+                <td><a href="#">Actualizar</a></td>
+                <td><a href="#">Eliminar</a></td>
+
+
+                
+            </tr>
+
+        </tbody>
+    </table>
+    <a href="/"> Abrir Vista Formulario </a>
 
 </body>
 </html>
