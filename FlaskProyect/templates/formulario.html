@@ -24,6 +24,21 @@
         <input type="number" name="txtAnio"    placeholder="Año"     required>
         <button type="submit">Guardar Álbum</button>
     </form>
-
+<br>
+<table>
+    <thead>
+        <td>Id:</td>
+        <td>Album:</td>
+    </thead>
+    <tbody>
+        {%for alb in albums%}
+        <tr>
+            <td>{{alb.0}}</td>
+            <td><a href="/detalles/{{alb.0}}">{{alb.1}}</a></td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
 </body>
 </html>
+
