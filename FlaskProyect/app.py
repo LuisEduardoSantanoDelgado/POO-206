@@ -17,14 +17,42 @@ db_config = {
 def DB_check():
     try:
         conn = mysql.connector.connect(**db_config)
-        conn.close()
+        conn.cursor().execute('SELECT * FROM tb_albums')
         return jsonify({'status': 'ok', 'message': 'Conectado con éxito'}), 200
     except mysql.connector.Error as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @app.route('/')
 def home():
-    return render_template('formulario.html')
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM tb_albums')
+        consultaTodo = cursor.fetchall()
+        return render_template('formulario.html', errores=(), albums=consultaTodo)
+        
+    except Exception as e:
+        print('Error al consultar todo: ' + str(e))
+        return render_template('formulario.html', errores=(), albums=[])
+
+    finally:
+        cursor.close()
+        
+@app.route('/detalles/<int:id>')
+def detalle(id):
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM tb_albums WHERE id=%s',((id,)))
+        consultaId = cursor.fetchone()
+        return render_template('consulta.html', errores=(), album= consultaId)
+        
+    except Exception as e:
+        print('Error al consultar por Id: ' +e )
+        return redirect(url_for=('home'))
+
+    finally:
+        cursor.close()
 
 @app.route('/consulta')
 def consulta():
