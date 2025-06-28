@@ -30,29 +30,74 @@ def home():
         cursor.execute('SELECT * FROM tb_albums')
         consultaTodo = cursor.fetchall()
         return render_template('formulario.html', errores=(), albums=consultaTodo)
-        
     except Exception as e:
         print('Error al consultar todo: ' + str(e))
         return render_template('formulario.html', errores=(), albums=[])
-
     finally:
         cursor.close()
-        
+
 @app.route('/detalles/<int:id>')
 def detalle(id):
     try:
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM tb_albums WHERE id=%s',((id,)))
+        cursor.execute('SELECT * FROM tb_albums WHERE id=%s', ((id,)))
         consultaId = cursor.fetchone()
-        return render_template('consulta.html', errores=(), album= consultaId)
-        
+        return render_template('consulta.html', errores=(), album=consultaId)
     except Exception as e:
-        print('Error al consultar por Id: ' +e )
-        return redirect(url_for=('home'))
-
+        print('Error al consultar por Id: ' + str(e))
+        return redirect(url_for('home'))
     finally:
         cursor.close()
+        conn.close()
+
+@app.route('/actualizar/<int:id>')
+def actualizar(id):
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM tb_albums WHERE id=%s', (id,))
+        album = cursor.fetchone()
+        if album:
+            return render_template('formUpdate.html', album=album)
+        else:
+            flash('album no encontrado')
+            return redirect(url_for('home'))
+    except Exception as e:
+        print('album no encontrado : ' + str(e))
+        return redirect(url_for('home'))
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.route('/actualizarAlbum/<int:id>', methods=['POST'])
+def actualizarAlbum(id):
+    Vtitulo = request.form.get('txtTitulo', '').strip()
+    VArtista = request.form.get('txtArtista', '').strip()
+    VAnio = request.form.get('txtAnio', '').strip()
+
+    if not Vtitulo or not VArtista or not VAnio:
+        flash('Todos los campos son obligatorios. No se permiten vacíos.')
+        return redirect(url_for('actualizar', id=id))
+
+    if not VAnio.isdigit():
+        flash('El año debe ser un número entero válido.')
+        return redirect(url_for('actualizar', id=id))
+
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+        cursor.execute('UPDATE tb_albums SET album=%s, artista=%s, anio=%s WHERE id=%s',
+                       (Vtitulo, VArtista, int(VAnio), id))
+        conn.commit()
+        flash('Álbum actualizado correctamente.')
+        return redirect(url_for('home'))
+    except Exception as e:
+        print('Error al actualizar: ' + str(e))
+        return redirect(url_for('actualizar', id=id))
+    finally:
+        cursor.close()
+        conn.close()
 
 @app.route('/consulta')
 def consulta():
