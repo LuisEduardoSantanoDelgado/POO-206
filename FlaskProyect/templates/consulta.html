@@ -2,13 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> consulta </title>
+    <title>Consulta</title>
 </head>
 <body>
 
     <h2>Detalle de album</h2>
-    
     
     <table>
         <thead>
@@ -20,15 +18,12 @@
         <tbody>
 
             <tr>
-                <td>{{album.0}}</td>
-                <td>{{album.1}}</td>
-                <td>{{album.2}}</td>
-                <td>{{album.3}}</td>
+                <td>{{ album.0 }}</td>
+                <td>{{ album.1 }}</td>
+                <td>{{ album.2 }}</td>
+                <td>{{ album.3 }}</td>
                 <td><a href="{{ url_for('actualizar', id=album.0) }}">Actualizar</a></td>
-                <td><a href="#">Eliminar</a></td>
-
-
-                
+                <td><a href="{{ url_for('confirmarEliminacion', id=album.0) }}">Eliminar</a></td>
             </tr>
 
         </tbody>

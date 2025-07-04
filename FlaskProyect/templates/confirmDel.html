@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Eliminación</title>
+</head>
+<body>
+    <h2 style="color: rgb(24, 49, 191);">¿Seguro que lo quieres eliminar?</h2>
+    <form action="{{ url_for('eliminarAlbum', id=album.0) }}" method="post">
+        <input type="text" value="{{ album.1 }}" disabled>
+        <input type="text" value="{{ album.2 }}" disabled>
+        <input type="number" value="{{ album.3 }}" disabled>
+        <button type="submit">Eliminar Álbum</button>
+    </form>
+    <br>
+    <a href="{{ url_for('home') }}">Regresar al Formulario</a>
+</body>
+</html>
