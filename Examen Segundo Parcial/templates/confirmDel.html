@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Eliminación</title>
+</head>
+<body>
+
+    <h2>Confirmar Eliminación de Contacto</h2>
+
+    {% if contacto %}
+        <p>¿Estás seguro que deseas eliminar el contacto <strong>{{ contacto[1] }}</strong>?</p>
+        <form action="{{ url_for('eliminarContacto', id=contacto[0]) }}" method="post">
+            <button type="submit">Eliminar</button>
+            <a href="{{ url_for('home') }}">Cancelar</a>
+        </form>
+    {% else %}
+        <p>Contacto no encontrado.</p>
+    {% endif %}
+
+</body>
+</html>

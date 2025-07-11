@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Contacto</title>
+</head>
+<body>
+
+    <h2>Detalle del Contacto</h2>
+
+    {% if contacto %}
+        <ul>
+            <li><strong>ID:</strong> {{ contacto[0] }}</li>
+            <li><strong>Nombre:</strong> {{ contacto[1] }}</li>
+            <li><strong>Correo:</strong> {{ contacto[2] }}</li>
+            <li><strong>Teléfono:</strong> {{ contacto[3] }}</li>
+            <li><strong>Edad:</strong> {{ contacto[4] }}</li>
+        </ul>
+    {% else %}
+        <p>El contacto no fue encontrado o ya fue eliminado.</p>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}">Volver</a>
+
+</body>
+</html>

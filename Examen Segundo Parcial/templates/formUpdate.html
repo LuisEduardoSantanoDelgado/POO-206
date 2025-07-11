@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Contacto</title>
+</head>
+<body>
+
+    <h2>Editar Contacto</h2>
+
+    <form action="{{ url_for('actualizarContacto', id=contacto[0]) }}" method="post">
+        <input type="text" name="txtNombre" value="{{ contacto[1] }}" placeholder="Nombre"><br>
+        <input type="text" name="txtCorreo" value="{{ contacto[2] }}" placeholder="Correo"><br>
+        <input type="text" name="txtTelefono" value="{{ contacto[3] }}" placeholder="Teléfono"><br>
+        <input type="number" name="txtEdad" value="{{ contacto[4] }}" placeholder="Edad"><br>
+        <button type="submit">Actualizar</button>
+    </form>
+
+    <a href="{{ url_for('home') }}">Cancelar</a>
+
+</body>
+</html>

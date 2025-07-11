@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contactos</title>
+</head>
+<body>
+
+    <h2>Vista de Contactos</h2>
+
+    {% with mensajes = get_flashed_messages() %}
+        {% if mensajes %}
+            {% for msj in mensajes %}
+                <h4 style="color:blue;">{{ msj }}</h4>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('guardar') }}" method="post">
+        <input type="text" name="txtNombre" placeholder="Nombre" >
+        <input type="text" name="txtCorreo" placeholder="Correo" >
+        <input type="text" name="txtTelefono" placeholder="Teléfono" >
+        <input type="number" name="txtEd" placeholder="Edad" >
+        <button type="submit">Guardar Contacto</button>
+    </form>
+
+    <br><hr><br>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in contactos %}
+                <tr>
+                    <td>{{ c[0] }}</td>
+                    <td>{{ c[1] }}</td>
+                    <td>
+                        <a href="{{ url_for('detalle', id=c[0]) }}">Ver</a> |
+                        <a href="{{ url_for('actualizar', id=c[0]) }}">Editar</a> |
+                        <a href="{{ url_for('confirmarEliminacion', id=c[0]) }}">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
